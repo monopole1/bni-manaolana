@@ -39,7 +39,7 @@
     if (!company) return;
 
     var link = document.createElement('a');
-    link.href = 'https://example.com/member-' + (index + 1);
+    link.href = 'https://taiko-densetsu.com/' + (index + 1);
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     link.className = 'member__link';

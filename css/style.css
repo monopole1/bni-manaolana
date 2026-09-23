@@ -223,6 +223,11 @@ ul { margin: 0; padding: 0; list-style: none; }
 .officer__role { font-size: 13px; font-weight: 700; color: var(--accent); line-height: 1.5; }
 .officer__name { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--navy-deep); }
 .officer__company { font-size: 12px; color: var(--text-mute); }
+.officer__link {
+  display: inline-flex; align-items: center; justify-content: center;
+  margin-top: 2px; font-size: 12px; font-weight: 700; color: var(--accent); text-decoration: none;
+}
+.officer__link:hover, .officer__link:focus-visible { text-decoration: underline; }
 
 /* ---------- Category index ---------- */
 .cat-index { padding: 88px 0 24px; text-align: center; }
