@@ -29,3 +29,32 @@
     if (mq.matches) setOpen(false);
   });
 })();
+
+// メンバー紹介カードにダミーのホームページリンクを追加
+(function () {
+  var members = document.querySelectorAll('.member');
+
+  members.forEach(function (member, index) {
+    var company = member.querySelector('.member__company');
+    if (!company) return;
+
+    var link = document.createElement('a');
+    link.href = 'https://example.com/member-' + (index + 1);
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.className = 'member__link';
+    link.textContent = 'ホームページ';
+
+    company.insertAdjacentElement('afterend', link);
+  });
+})();
+
+// 写真差し替え用のダミーファイル名を各写真枠に付与
+(function () {
+  var photos = document.querySelectorAll('.photo');
+
+  photos.forEach(function (photo, index) {
+    var fileName = 'member-' + String(index + 1).padStart(2, '0') + '.jpg';
+    photo.setAttribute('data-photo', fileName);
+  });
+})();
