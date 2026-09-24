@@ -98,6 +98,59 @@
   window.addEventListener('resize', playAtScrollEnd);
 })();
 
+// 波が引いた後、星を持った人物がサーフィンしてロゴに着地する
+(function () {
+  var logoWrap = document.querySelector('.hero__logo-wrap');
+  var logo = logoWrap && logoWrap.querySelector('.hero__logo');
+  if (!logoWrap || !logo) return;
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) return;
+
+  logoWrap.classList.add('is-awaiting-surfer');
+  var surfer = document.createElement('img');
+  surfer.src = 'images/logo-surfer.png';
+  surfer.alt = '';
+  surfer.setAttribute('aria-hidden', 'true');
+
+  window.setTimeout(function () {
+    var rect = logo.getBoundingClientRect();
+    var surferSize = Math.max(150, rect.width * .7);
+    var endX = rect.left + rect.width * .15;
+    var endY = rect.top - rect.height * .01;
+    var startX = window.innerWidth + surferSize * .1;
+    var startY = Math.min(window.innerHeight - surferSize * .78, rect.top + rect.height * .62);
+    surfer.className = 'hero-surfer';
+    surfer.style.setProperty('--surfer-size', surferSize + 'px');
+    document.body.appendChild(surfer);
+
+    var flight = surfer.animate([
+      { transform: 'translate3d(' + startX + 'px,' + startY + 'px,0) rotate(-13deg) scale(.78)', opacity: 0 },
+      { transform: 'translate3d(' + (startX - window.innerWidth * .18) + 'px,' + (startY - 34) + 'px,0) rotate(-7deg) scale(.84)', opacity: 1, offset: .14 },
+      { transform: 'translate3d(' + (endX + (startX - endX) * .54) + 'px,' + (startY + 18) + 'px,0) rotate(8deg) scale(.9)', opacity: 1, offset: .42 },
+      { transform: 'translate3d(' + (endX + (startX - endX) * .22) + 'px,' + (endY - 42) + 'px,0) rotate(-5deg) scale(.96)', opacity: 1, offset: .72 },
+      { transform: 'translate3d(' + (endX + 8) + 'px,' + (endY - 8) + 'px,0) rotate(-1deg) scale(.995)', opacity: 1, offset: .86 },
+      { transform: 'translate3d(' + (endX + 2) + 'px,' + (endY - 2) + 'px,0) rotate(0deg) scale(1)', opacity: .72, offset: .98 },
+      { transform: 'translate3d(' + endX + 'px,' + endY + 'px,0) rotate(0deg) scale(1)', opacity: 0 }
+    ], {
+      duration: 3400,
+      easing: 'cubic-bezier(.2,.72,.18,1)',
+      fill: 'forwards'
+    });
+
+    // 着地少し前から完成ロゴを重ね、両者をクロスフェードさせる
+    window.setTimeout(function () {
+      logoWrap.classList.remove('is-awaiting-surfer');
+      logoWrap.classList.add('is-surfer-arrived');
+      surfer.classList.add('is-landing');
+    }, 1760);
+
+    flight.onfinish = function () {
+      if (surfer.parentNode) surfer.parentNode.removeChild(surfer);
+    };
+  }, 2750);
+})();
+
 // 長いプロフィール文をカード内で開閉する
 (function () {
   var buttons = document.querySelectorAll('.js-read-more');
