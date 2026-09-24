@@ -60,6 +60,71 @@ ul { margin: 0; padding: 0; list-style: none; }
   clip: rect(0 0 0 0); white-space: nowrap;
 }
 
+/* ---------- Ocean page reveal ---------- */
+.ocean-reveal {
+  position: fixed; inset: 0; z-index: 1000; overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(165deg, #063b68 0%, #08658c 38%, #08a7b0 72%, #65d4c5 100%);
+  clip-path: inset(0 0 0 0);
+  animation: ocean-reveal 2.55s cubic-bezier(.72, 0, .2, 1) .08s forwards;
+}
+.ocean-reveal::before {
+  content: ""; position: absolute; inset: -18% -8%; opacity: .28;
+  background: radial-gradient(ellipse at 20% 70%, rgba(255,255,255,.18), transparent 35%),
+              radial-gradient(ellipse at 78% 42%, rgba(255,255,255,.14), transparent 38%);
+  animation: ocean-current 2.55s ease-in-out .08s forwards;
+}
+.ocean-reveal__swell {
+  position: absolute; left: -12%; bottom: -14vh; width: 124%; height: 30vh;
+  opacity: .72; background: linear-gradient(180deg, rgba(152,239,228,.9), rgba(3,111,151,.15) 55%, transparent);
+  clip-path: polygon(0 48%, 8% 35%, 17% 43%, 27% 22%, 38% 37%, 49% 18%, 60% 36%, 71% 25%, 82% 43%, 92% 30%, 100% 46%, 100% 100%, 0 100%);
+  animation: ocean-swell 2.55s cubic-bezier(.65, 0, .2, 1) .08s forwards;
+}
+.ocean-reveal__foam {
+  position: absolute; left: -12%; bottom: -8vh; width: 124%; height: 15vh;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(231,255,251,.78) 36%, rgba(176,236,232,.18) 82%, transparent);
+  clip-path: polygon(0 47%, 8% 35%, 17% 43%, 27% 22%, 38% 37%, 49% 18%, 60% 36%, 71% 25%, 82% 43%, 92% 30%, 100% 46%, 100% 100%, 0 100%);
+  filter: drop-shadow(0 -5px 7px rgba(255,255,255,.62));
+  animation: ocean-wave 2.55s cubic-bezier(.65, 0, .2, 1) .08s forwards, wave-break .72s ease-in-out .08s 3;
+}
+.ocean-reveal__foam::before, .ocean-reveal__foam::after {
+  content: ""; position: absolute; left: 0; width: 100%; height: 40%; top: 26%;
+  background: repeating-linear-gradient(96deg, transparent 0 14px, rgba(255,255,255,.8) 15px 19px, transparent 20px 34px);
+  opacity: .74; filter: blur(1px); transform: skewX(-8deg);
+}
+.ocean-reveal__foam::after { top: 44%; opacity: .45; transform: skewX(9deg) scaleX(.92); }
+.ocean-reveal__spray {
+  position: absolute; left: -12%; bottom: -9vh; width: 124%; height: 25vh;
+  background: radial-gradient(ellipse at 12% 77%, rgba(255,255,255,.85) 0 2px, transparent 3px), radial-gradient(ellipse at 27% 63%, rgba(255,255,255,.7) 0 2px, transparent 3px), radial-gradient(ellipse at 43% 56%, rgba(255,255,255,.88) 0 3px, transparent 4px), radial-gradient(ellipse at 59% 61%, rgba(255,255,255,.72) 0 2px, transparent 3px), radial-gradient(ellipse at 76% 54%, rgba(255,255,255,.9) 0 3px, transparent 4px), radial-gradient(ellipse at 91% 66%, rgba(255,255,255,.75) 0 2px, transparent 3px);
+  animation: ocean-spray 2.55s cubic-bezier(.65, 0, .2, 1) .08s forwards;
+}
+.ocean-reveal--reduced { animation: ocean-fade .45s ease forwards; }
+.ocean-reveal--reduced .ocean-reveal__foam,
+.ocean-reveal--reduced .ocean-reveal__swell,
+.ocean-reveal--reduced .ocean-reveal__spray,
+.ocean-reveal--reduced::before { display: none; }
+@keyframes ocean-reveal {
+  0%, 8% { clip-path: inset(0 0 0 0); }
+  100% { clip-path: inset(0 0 100% 0); }
+}
+@keyframes ocean-wave {
+  0%, 8% { bottom: -8vh; transform: translateX(0) scaleX(1); }
+  48% { transform: translateX(-2%) scaleX(1.05); }
+  72% { transform: translateX(1%) scaleX(.98); }
+  100% { bottom: 105vh; transform: translateX(-1%) scaleX(1.02); }
+}
+@keyframes wave-break {
+  0%, 100% { filter: drop-shadow(0 -5px 7px rgba(255,255,255,.62)); }
+  50% { filter: drop-shadow(0 -11px 11px rgba(255,255,255,.88)); }
+}
+@keyframes ocean-swell { from { bottom: -14vh; transform: scaleX(1); } to { bottom: 102vh; transform: scaleX(1.08); } }
+@keyframes ocean-spray { from { bottom: -9vh; opacity: .2; transform: translateX(0); } 45% { opacity: 1; transform: translateX(-2%); } to { bottom: 108vh; opacity: 0; transform: translateX(2%); } }
+@keyframes ocean-current {
+  0%, 8% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8%) scale(1.08); opacity: 0; }
+}
+@keyframes ocean-fade { to { opacity: 0; } }
+
 /* ---------- Buttons ---------- */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;

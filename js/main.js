@@ -90,3 +90,24 @@
     });
   });
 })();
+
+// 初回ロード時に海の波が画面を上へ流れてページを見せる
+(function () {
+  var overlay = document.createElement('div');
+  overlay.className = 'ocean-reveal';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML = '<span class="ocean-reveal__swell"></span><span class="ocean-reveal__foam"></span><span class="ocean-reveal__spray"></span>';
+  document.body.appendChild(overlay);
+
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reducedMotion) {
+    overlay.classList.add('ocean-reveal--reduced');
+  }
+
+  window.setTimeout(function () {
+    overlay.classList.add('is-complete');
+    window.setTimeout(function () {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    }, reducedMotion ? 500 : 2600);
+  }, 40);
+})();
