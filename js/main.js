@@ -30,6 +30,22 @@
   });
 })();
 
+// 長いプロフィール文をカード内で開閉する
+(function () {
+  var buttons = document.querySelectorAll('.js-read-more');
+
+  buttons.forEach(function (button) {
+    var text = button.previousElementSibling;
+    if (!text || !text.classList.contains('js-read-more-text')) return;
+
+    button.addEventListener('click', function () {
+      var expanded = text.classList.toggle('is-expanded');
+      button.setAttribute('aria-expanded', String(expanded));
+      button.textContent = expanded ? '閉じる' : 'もっと読む';
+    });
+  });
+})();
+
 // メンバー紹介カードにダミーのホームページリンクを追加
 (function () {
   var members = document.querySelectorAll('.member');
