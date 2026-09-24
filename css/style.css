@@ -388,7 +388,70 @@ ul { margin: 0; padding: 0; list-style: none; }
 }
 
 /* ---------- Footer ---------- */
-.site-footer { border-top: 4px solid var(--accent); }
+.site-footer { position: relative; overflow: hidden; border-top: 4px solid var(--accent); }
+.footer-ocean-reveal {
+  position: absolute; inset: 0; z-index: 5; pointer-events: none;
+  background: linear-gradient(165deg, #063b68 0%, #08658c 38%, #08a7b0 72%, #65d4c5 100%);
+  clip-path: inset(0 0 0 0);
+}
+.footer-ocean-reveal.is-open { animation: footer-wave-open 2.25s cubic-bezier(.72, 0, .2, 1) forwards; }
+.footer-ocean-reveal::before {
+  content: ""; position: absolute; inset: -15% -10%; opacity: .35;
+  background: repeating-linear-gradient(168deg, transparent 0 18px, rgba(174,245,238,.22) 20px 23px, transparent 26px 46px);
+  transform: skewX(-9deg) translateX(-3%);
+  animation: footer-water-sheen 2.25s ease-in-out forwards;
+}
+.footer-ocean-reveal::after {
+  content: ""; position: absolute; inset: -20% -15%; opacity: .38;
+  background:
+    radial-gradient(ellipse at 18% 28%, rgba(102,224,218,.5), transparent 28%),
+    radial-gradient(ellipse at 76% 62%, rgba(0,71,121,.42), transparent 34%),
+    repeating-linear-gradient(12deg, transparent 0 24px, rgba(161,245,234,.16) 28px 31px, transparent 36px 62px);
+  background-size: 130% 130%, 145% 145%, 100% 100%;
+  mix-blend-mode: screen;
+  animation: footer-water-depth 2.25s ease-in-out forwards;
+}
+.footer-ocean-reveal__foam {
+  position: absolute; left: -8%; top: -5vh; width: 116%; height: 12vh;
+  background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.42) 30%, transparent 72%);
+  clip-path: polygon(0 42%, 10% 60%, 21% 35%, 33% 58%, 45% 28%, 57% 54%, 69% 32%, 81% 58%, 92% 38%, 100% 52%, 100% 100%, 0 100%);
+  filter: drop-shadow(0 4px 8px rgba(255,255,255,.55));
+  animation: none;
+}
+.footer-ocean-reveal__foam::before,
+.footer-ocean-reveal__foam::after {
+  content: ""; position: absolute; left: -4%; width: 108%; height: 48%;
+  border-radius: 50%; pointer-events: none;
+}
+.footer-ocean-reveal__foam::before {
+  top: -12%; background: rgba(255,255,255,.58);
+  filter: blur(5px); transform: rotate(-2deg) scaleX(1.04);
+}
+.footer-ocean-reveal__foam::after {
+  top: 14%; background: repeating-radial-gradient(ellipse at 20% 50%, rgba(255,255,255,.8) 0 2px, transparent 3px 13px);
+  opacity: .65; transform: skewX(-12deg);
+}
+.footer-bubble {
+  position: absolute; left: var(--bubble-x); bottom: 8%; width: var(--bubble-size); height: var(--bubble-size);
+  border-radius: 50%; background: rgba(255,255,255,.9);
+  box-shadow: 0 0 5px rgba(255,255,255,.75); opacity: 0;
+}
+.footer-ocean-reveal.is-open .footer-bubble {
+  animation: footer-bubble-burst 2.25s cubic-bezier(.2,.7,.3,1) var(--bubble-delay) both;
+}
+@keyframes footer-wave-open { 0% { clip-path: inset(0 0 0 0); } 62% { clip-path: inset(34% 0 0 0); } 100% { clip-path: inset(100% 0 0 0); } }
+@keyframes footer-foam-flow { 0% { top: -5vh; transform: translateY(0) scaleX(1); opacity: 1; } 45% { top: 32%; transform: translateY(1vh) scaleX(1.04); opacity: 1; } 68% { top: 55%; transform: translateY(0) scaleX(.96); opacity: .9; } 100% { top: 106%; transform: translateY(-2vh) scaleX(1.08); opacity: 0; } }
+@keyframes footer-water-sheen { from { transform: skewX(-9deg) translate(-8%, 0); } 52% { transform: skewX(-5deg) translate(3%, 8%); } to { transform: skewX(-9deg) translate(-2%, 24%); opacity: 0; } }
+@keyframes footer-water-depth { from { transform: translate3d(-5%, -6%, 0) scale(1); background-position: 0 0, 100% 0, 0 0; } 52% { transform: translate3d(3%, 2%, 0) scale(1.08); background-position: 30% 42%, 65% 58%, 18% 0; } to { transform: translate3d(-2%, 22%, 0) scale(1.14); background-position: 70% 100%, 20% 100%, 42% 100%; opacity: 0; } }
+@keyframes footer-bubble-burst {
+  0% { opacity: 0; transform: translate3d(0, 12px, 0) scale(.35); }
+  18% { opacity: 1; }
+  72% { opacity: .82; transform: translate3d(var(--bubble-drift), -15vh, 0) scale(1); }
+  100% { opacity: 0; transform: translate3d(calc(var(--bubble-drift) * 1.35), -24vh, 0) scale(.55); }
+}
+.footer-ocean-reveal.is-open .footer-ocean-reveal__foam { animation-play-state: running; }
+.footer-ocean-reveal.is-open .footer-ocean-reveal__foam { animation: footer-foam-flow 2.25s ease-in-out forwards; }
+.footer-ocean-reveal--reduced { animation: footer-wave-open .35s ease forwards; }
 .site-footer__inner {
   padding-block: 56px; display: flex; align-items: center; gap: 72px;
 }

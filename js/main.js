@@ -30,6 +30,60 @@
   });
 })();
 
+// スクロール終端へ到達するたび、フッターを上から下へ波で見せる
+(function () {
+  var footer = document.querySelector('.site-footer');
+  var reveal = footer && footer.querySelector('.footer-ocean-reveal');
+  if (!footer || !reveal) return;
+
+  var foam = reveal.querySelector('.footer-ocean-reveal__foam');
+  for (var i = 0; i < 1000; i++) {
+    var bubble = document.createElement('i');
+    bubble.className = 'footer-bubble';
+    bubble.style.setProperty('--bubble-x', (Math.random() * 100) + '%');
+    bubble.style.setProperty('--bubble-size', (3 + Math.random() * 12) + 'px');
+    bubble.style.setProperty('--bubble-delay', (Math.random() * .35) + 's');
+    bubble.style.setProperty('--bubble-drift', ((Math.random() - .5) * 90) + 'px');
+    if (foam) foam.appendChild(bubble);
+  }
+
+  var wasAtEnd = false;
+  var waveTimer;
+  function randomWaveShape() {
+    var points = ['0% 46%'];
+    for (var point = 1; point < 13; point++) {
+      var x = Math.round(point * 100 / 12);
+      var y = Math.round(24 + Math.random() * 30);
+      points.push(x + '% ' + y + '%');
+    }
+    points.push('100% 100%', '0% 100%');
+    return 'polygon(' + points.join(',') + ')';
+  }
+  function playAtScrollEnd() {
+    var distance = document.documentElement.scrollHeight - (window.scrollY + window.innerHeight);
+    var atEnd = distance <= 8;
+    if (!atEnd || wasAtEnd) {
+      wasAtEnd = atEnd;
+      return;
+    }
+    wasAtEnd = true;
+    window.clearInterval(waveTimer);
+    var foam = reveal.querySelector('.footer-ocean-reveal__foam');
+    if (foam) {
+      foam.style.clipPath = randomWaveShape();
+      waveTimer = window.setInterval(function () {
+        foam.style.clipPath = randomWaveShape();
+      }, 140);
+      window.setTimeout(function () { window.clearInterval(waveTimer); }, 2400);
+    }
+    reveal.classList.remove('is-open');
+    void reveal.offsetWidth;
+    reveal.classList.add('is-open');
+  }
+  window.addEventListener('scroll', playAtScrollEnd, { passive: true });
+  window.addEventListener('resize', playAtScrollEnd);
+})();
+
 // 長いプロフィール文をカード内で開閉する
 (function () {
   var buttons = document.querySelectorAll('.js-read-more');
@@ -98,6 +152,22 @@
   overlay.setAttribute('aria-hidden', 'true');
   overlay.innerHTML = '<span class="ocean-reveal__swell"></span><span class="ocean-reveal__foam"></span><span class="ocean-reveal__spray"></span>';
   document.body.appendChild(overlay);
+
+  var foam = overlay.querySelector('.ocean-reveal__foam');
+  function randomTopWaveShape() {
+    var points = ['0% 46%'];
+    for (var point = 1; point < 13; point++) {
+      var x = Math.round(point * 100 / 12);
+      var y = Math.round(20 + Math.random() * 34);
+      points.push(x + '% ' + y + '%');
+    }
+    points.push('100% 100%', '0% 100%');
+    return 'polygon(' + points.join(',') + ')';
+  }
+  var topWaveTimer = window.setInterval(function () {
+    if (foam) foam.style.clipPath = randomTopWaveShape();
+  }, 140);
+  window.setTimeout(function () { window.clearInterval(topWaveTimer); }, 2600);
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reducedMotion) {
