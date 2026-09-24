@@ -36,6 +36,17 @@
   var reveal = footer && footer.querySelector('.footer-ocean-reveal');
   if (!footer || !reveal) return;
 
+  reveal.querySelectorAll('.sea-creature').forEach(function (creature) {
+    var angle = Math.random() * Math.PI * 2;
+    var distance = 70 + Math.random() * 150;
+    creature.style.setProperty('--creature-duration', (1.2 + Math.random() * 1.4) + 's');
+    creature.style.setProperty('--creature-delay', (.1 + Math.random() * .4) + 's');
+    creature.style.setProperty('--creature-drift', (Math.cos(angle) * distance) + 'px');
+    creature.style.setProperty('--creature-rise', (Math.sin(angle) * distance) + 'px');
+    creature.style.setProperty('--creature-rotate', ((Math.random() - .5) * 50) + 'deg');
+    creature.style.setProperty('--creature-end-rotate', ((Math.random() - .5) * 100) + 'deg');
+  });
+
   var foam = reveal.querySelector('.footer-ocean-reveal__foam');
   for (var i = 0; i < 1000; i++) {
     var bubble = document.createElement('i');
@@ -76,9 +87,12 @@
       }, 140);
       window.setTimeout(function () { window.clearInterval(waveTimer); }, 2400);
     }
-    reveal.classList.remove('is-open');
+    reveal.classList.remove('is-open', 'creatures-visible');
     void reveal.offsetWidth;
-    reveal.classList.add('is-open');
+    reveal.classList.add('creatures-visible');
+    window.setTimeout(function () {
+      reveal.classList.add('is-open');
+    }, 500);
   }
   window.addEventListener('scroll', playAtScrollEnd, { passive: true });
   window.addEventListener('resize', playAtScrollEnd);
@@ -147,11 +161,36 @@
 
 // 初回ロード時に海の波が画面を上へ流れてページを見せる
 (function () {
+  if (!document.getElementById('wave-noise')) {
+    var defs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    defs.setAttribute('aria-hidden', 'true');
+    defs.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+    defs.innerHTML = '<filter id="wave-noise" x="-10%" y="-20%" width="120%" height="140%"><feTurbulence type="fractalNoise" baseFrequency="0.012 0.045" numOctaves="3" seed="7" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G"/></filter>';
+    document.body.appendChild(defs);
+  }
   var overlay = document.createElement('div');
   overlay.className = 'ocean-reveal';
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<span class="ocean-reveal__swell"></span><span class="ocean-reveal__foam"></span><span class="ocean-reveal__spray"></span>';
+  overlay.innerHTML = '<span class="ocean-reveal__swell"></span><span class="ocean-reveal__foam"></span><span class="ocean-reveal__spray"></span><div class="top-sea-creatures" aria-hidden="true">🐬 🐢 🦑 🦐 ⭐ 🐴 🐚 🛸 🐙 🐡</div>';
   document.body.appendChild(overlay);
+
+  var topCreatures = overlay.querySelector('.top-sea-creatures');
+  topCreatures.textContent = '';
+  ['🐬','🐢','🦑','🦐','⭐','𓆝','🐚','𓆟','🐙','🐡'].forEach(function (icon) {
+    var creature = document.createElement('span');
+    creature.textContent = icon;
+    creature.className = 'top-sea-creature';
+    var angle = Math.random() * Math.PI * 2;
+    var distance = 70 + Math.random() * 170;
+    creature.style.setProperty('--creature-x', (8 + Math.random() * 84) + '%');
+    creature.style.setProperty('--creature-y', (24 + Math.random() * 55) + '%');
+    creature.style.setProperty('--creature-size', (2.2 + Math.random() * 3.6) + 'rem');
+    creature.style.setProperty('--creature-delay', (.1 + Math.random() * .4) + 's');
+    creature.style.setProperty('--creature-duration', (1.2 + Math.random() * 1.2) + 's');
+    creature.style.setProperty('--creature-drift-x', (Math.cos(angle) * distance) + 'px');
+    creature.style.setProperty('--creature-drift-y', (Math.sin(angle) * distance) + 'px');
+    topCreatures.appendChild(creature);
+  });
 
   var foam = overlay.querySelector('.ocean-reveal__foam');
   function randomTopWaveShape() {
@@ -168,6 +207,8 @@
     if (foam) foam.style.clipPath = randomTopWaveShape();
   }, 140);
   window.setTimeout(function () { window.clearInterval(topWaveTimer); }, 2600);
+  overlay.classList.add('creatures-visible');
+  window.setTimeout(function () { overlay.classList.add('is-open'); }, 500);
 
   var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reducedMotion) {

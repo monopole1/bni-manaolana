@@ -66,8 +66,13 @@ ul { margin: 0; padding: 0; list-style: none; }
   pointer-events: none;
   background: linear-gradient(165deg, #063b68 0%, #08658c 38%, #08a7b0 72%, #65d4c5 100%);
   clip-path: inset(0 0 0 0);
-  animation: ocean-reveal 2.55s cubic-bezier(.72, 0, .2, 1) .08s forwards;
+  animation: none;
 }
+.ocean-reveal.is-open { animation: ocean-reveal 2.55s cubic-bezier(.72, 0, .2, 1) .08s forwards; }
+.top-sea-creatures { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
+.top-sea-creature { position: absolute; left: var(--creature-x); top: var(--creature-y); font-size: var(--creature-size); line-height: 1; opacity: 0; filter: saturate(.7) drop-shadow(0 2px 2px rgba(0,30,60,.4)); }
+.ocean-reveal.creatures-visible .top-sea-creature { animation: top-creature-drift var(--creature-duration) ease-in-out var(--creature-delay) both; }
+@keyframes top-creature-drift { 0% { opacity: 0; transform: translate(0, 0) scale(1) rotate(-20deg); } 18% { opacity: .9; } 72% { opacity: .82; } 100% { opacity: 0; transform: translate(var(--creature-drift-x), var(--creature-drift-y)) scale(1) rotate(20deg); } }
 .ocean-reveal::before {
   content: ""; position: absolute; inset: -18% -8%; opacity: .28;
   background: radial-gradient(ellipse at 20% 70%, rgba(255,255,255,.18), transparent 35%),
@@ -78,13 +83,14 @@ ul { margin: 0; padding: 0; list-style: none; }
   position: absolute; left: -12%; bottom: -14vh; width: 124%; height: 30vh;
   opacity: .72; background: linear-gradient(180deg, rgba(152,239,228,.9), rgba(3,111,151,.15) 55%, transparent);
   clip-path: polygon(0 48%, 8% 35%, 17% 43%, 27% 22%, 38% 37%, 49% 18%, 60% 36%, 71% 25%, 82% 43%, 92% 30%, 100% 46%, 100% 100%, 0 100%);
+  filter: url(#wave-noise);
   animation: ocean-swell 2.55s cubic-bezier(.65, 0, .2, 1) .08s forwards;
 }
 .ocean-reveal__foam {
   position: absolute; left: -12%; bottom: -8vh; width: 124%; height: 15vh;
   background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(231,255,251,.78) 36%, rgba(176,236,232,.18) 82%, transparent);
   clip-path: polygon(0 47%, 8% 35%, 17% 43%, 27% 22%, 38% 37%, 49% 18%, 60% 36%, 71% 25%, 82% 43%, 92% 30%, 100% 46%, 100% 100%, 0 100%);
-  filter: drop-shadow(0 -5px 7px rgba(255,255,255,.62));
+  filter: url(#wave-noise) drop-shadow(0 -5px 7px rgba(255,255,255,.62));
   animation: ocean-wave 2.55s cubic-bezier(.65, 0, .2, 1) .08s forwards, wave-break .72s ease-in-out .08s 3;
 }
 .ocean-reveal__foam::before, .ocean-reveal__foam::after {
@@ -409,15 +415,32 @@ ul { margin: 0; padding: 0; list-style: none; }
     repeating-linear-gradient(12deg, transparent 0 24px, rgba(161,245,234,.16) 28px 31px, transparent 36px 62px);
   background-size: 130% 130%, 145% 145%, 100% 100%;
   mix-blend-mode: screen;
+  filter: url(#wave-noise);
   animation: footer-water-depth 2.25s ease-in-out forwards;
 }
 .footer-ocean-reveal__foam {
   position: absolute; left: -8%; top: -5vh; width: 116%; height: 12vh;
   background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.42) 30%, transparent 72%);
   clip-path: polygon(0 42%, 10% 60%, 21% 35%, 33% 58%, 45% 28%, 57% 54%, 69% 32%, 81% 58%, 92% 38%, 100% 52%, 100% 100%, 0 100%);
-  filter: drop-shadow(0 4px 8px rgba(255,255,255,.55));
+  filter: url(#wave-noise) drop-shadow(0 4px 8px rgba(255,255,255,.55));
   animation: none;
 }
+.sea-creature { position: absolute; z-index: 2; opacity: 0; color: rgba(3,48,83,.72); }
+.sea-creature svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+.sea-creature--dolphin { width: 110px; height: 55px; left: -14%; top: 52%; transform: scaleX(-1); }
+.sea-creature--turtle { width: 78px; height: 55px; right: 12%; top: 68%; }
+.footer-ocean-reveal.creatures-visible .sea-creature--dolphin { animation: dolphin-swim 2.2s ease-in-out var(--creature-delay, .2s) both; }
+.footer-ocean-reveal.creatures-visible .sea-creature--turtle { animation: turtle-drift 2.2s ease-in-out var(--creature-delay, .2s) both; }
+.sea-creature--squid { width: 42px; height: 58px; left: 18%; top: 66%; }
+.sea-creature--shrimp { width: 72px; height: 42px; left: 62%; top: 48%; }
+.sea-creature--starfish { width: 38px; height: 38px; left: 78%; top: 76%; }
+.footer-ocean-reveal.creatures-visible .sea-creature--squid,
+.footer-ocean-reveal.creatures-visible .sea-creature--shrimp,
+.footer-ocean-reveal.creatures-visible .sea-creature--starfish { animation: creature-random-drift var(--creature-duration, 1.8s) ease-in-out var(--creature-delay, .2s) both; }
+.footer-ocean-reveal.creatures-visible .sea-creature { animation: creature-random-drift var(--creature-duration, 1.8s) ease-in-out var(--creature-delay, .2s) both; }
+@keyframes dolphin-swim { 0% { opacity: 0; left: -14%; transform: scaleX(-1) translateY(12px); } 18% { opacity: .78; } 72% { opacity: .7; } 100% { opacity: 0; left: 108%; transform: scaleX(-1) translateY(-18px); } }
+@keyframes turtle-drift { 0% { opacity: 0; right: 12%; transform: translate(0, 18px) rotate(-5deg); } 20% { opacity: .65; } 72% { opacity: .58; } 100% { opacity: 0; right: 42%; transform: translate(0, -16px) rotate(5deg); } }
+@keyframes creature-random-drift { 0% { opacity: 0; transform: translate(0, 18px) rotate(var(--creature-rotate, -10deg)) scale(.75); } 18% { opacity: .72; } 72% { opacity: .65; } 100% { opacity: 0; transform: translate(var(--creature-drift, 80px), var(--creature-rise, -80px)) rotate(var(--creature-end-rotate, 20deg)) scale(1); } }
 .footer-ocean-reveal__foam::before,
 .footer-ocean-reveal__foam::after {
   content: ""; position: absolute; left: -4%; width: 108%; height: 48%;
