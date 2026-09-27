@@ -167,6 +167,32 @@
   });
 })();
 
+// 役職・メンバー情報を一元化し、追加分も含めて指定順に描画
+(function () {
+  var people = {
+    watanabe: { photo: 'member-01.png', name: '渡辺 将基', kana: 'わたなべ まさき', company: '株式会社大向電設', category: '商工業施設電気工事', url: 'https://taiko-densetsu.com/', text: '「遊ざる者、働くべからず」をモットーに、栃木県那須塩原市・山形県新庄市で電気工事店を営んでおります。電気工事は難しいですよね？節電をやる？補助金は使える？小さなことでも、一度ご相談ください。', contact: '電気設備工事・エアコン工事' },
+    ohashiTomoko: { photo: 'member-04.png', name: '大橋 智子', kana: 'おおはし ともこ', company: '行政書士大橋智子事務所', category: '夢をかなえるまちづくり行政書士', url: 'https://tomoko-dreamtown.jp/', text: '相続・遺言・終活を中心に、任意後見・死後事務など、人生の「もしも」に備えるお手伝いをしています。親の相続が心配な方、遺言を書いておきたい方、ひとり暮らしの将来が不安な方など、家族のこれからを考え始めた方をご紹介ください。', contact: 'カフェやサロン・飲食店、福祉・介護事業・保育施設、建設業' },
+    watanabeShota: { photo: 'member-06.png', name: '渡部 翔大', kana: 'わたなべ しょうた', company: 'ファイナンシャルアドバイザー', category: '証券業', url: 'https://www.jw-advisers.co.jp/', text: '豊かな暮らしを実現するための頼れる伴走者として、お客様に常に寄り添い、将来ビジョンに沿った資産運用・資産保全・お金に関する問題全体に的確なソリューションを提供いたします。', contact: '公認会計士・税理士・不動産業・銀行員・信託銀行員' },
+    suga: { photo: 'member-02.png', name: '須賀 修一', kana: 'すが しゅういち', company: '株式会社須賀建設', category: '高性能住宅新築リフォーム', url: 'https://sugakensetsu.jp/', text: '冬暖かく夏涼しい。そんな高性能で快適な家に住んでみませんか？新築はもちろん、リフォームでも実現できます。地熱利用２４時間換気で空気もキレイに、おうち時間の充実ならお任せください。', contact: '保険代理店・ファイナンシャルプランナー' },
+    shiraishi: { photo: 'member-08.png', name: '白石 龍馬', kana: 'しらいし りょうま', company: '株式会社番町投資不動産', category: '不動産トータルコーディネーター', url: 'https://bancho-toushi.co.jp/', text: '不動産を通じて、お客様の資産を最適化。ヒアリングから人生設計、金融機関開拓、物件選定、建築設計、管理、アフターフォロー、相続・資産継承まで一気通貫で展開しています。', contact: '住宅販売・士業・FP・保険業・IFA等' },
+    inaba: { photo: 'member-07.png', name: '稲葉 俊桓', kana: 'いなば としゆき', company: '稲葉塗装工業株式会社', category: '建築・塗装', url: 'http://inabatosou.com/', text: '『塗装明るい街くり』塗装実績1300棟以上！最先端ハイグレード塗装を安心価格にてご提案します。', contact: '工務店・建設業・不動産業・工場・企業' },
+    ijima: { photo: 'member-05.png', name: '飯島 諸', kana: 'いいじま りょう', company: '合同会社ライーブ', category: '残置物撤去', url: 'http://inabatosou.com/', text: '残置物撤去、引越しに伴う付帯業務をノンストップで行い、価格・スピード感・窓口統一の安心感をご提供します。', contact: '不動産業・士業・解体業' },
+    hashimoto: { photo: 'member-10.png', name: '橋本 悟志', kana: 'はしもと さとし', company: 'タイガーワークス', category: '便利屋', url: 'https://r.goope.jp/tigerworks', text: '電気・ガス・水道インフラや医療系資格も多数持っている買取もできる便利屋です。小さなことから大きなことまで、どんなことでもお気軽にご相談下さい。', contact: '電気・水道・ガス工事・買取・仕入れ・解体・片付け・遺品整理・医療機器メンテナンス' },
+    kawata: { photo: 'member-11.png', name: '川田 裕祥', kana: 'かわた ゆうしょう', company: 'エルライズ株式会社', category: '業務改善ITサポート', url: 'https://elrise.co.jp', text: '企業や組織課題に対し、テクノロジー力で柔軟かつ実践的なソリューションを提供しています。経験豊富なエンジニア人材をチーム一員としてご提案・ご提供しています。', contact: '経営コンサルタント・中小企業診断士・ITコンサルタント・OA機器・複合機販売・法人保険営業' },
+    ohashiTakao: { photo: 'member-03.png', name: '大橋 孝生', kana: 'おおはし たかお', company: '株式会社エース', category: '内装仕上業', url: 'https://www.as-interior.com/', text: '高い技術力と、どんな内装工事にも対応できる幅広い対応力が強みです。技術を最大限に活かした施工で、お客様に信頼とご満足をお届けします。', contact: '不動産屋・事務機器販売店・元請建設業者・そこぬけ楽しい人' },
+    ayabe: { photo: 'member-09.png', name: '綾部 篤', kana: 'あやべ あつし', company: 'ファームリンク株式会社', category: '野菜EC販売', url: 'https://qr.paps.jp/zbiPq', text: 'ネット販売を通じてこだわり食材を安心してご購入いただける環境を提供しています。新商品の販売先や販売戦略・市場調査のご相談も承ります。', contact: 'スーパーバイヤー・飲食店経営者・食品製造業者・食品生産者・OEM製造業' }
+  };
+  var leadership = [['プレジデント','watanabe'],['バイスプレジデント','ohashiTomoko'],['書記兼会計','watanabeShota'],['エデュケーションコーディネーター','suga']];
+  var support = [['ビジターホストコーディネーター、メンターコーディネーター','shiraishi'],['グロースコーディネーター','hashimoto'],['WEBマスター','kawata'],['イベント委員長','inaba'],['BCP委員','ijima'],['推薦のことば担当','watanabeShota']];
+  var membership = [['メンバーシップ委員評価担当','ayabe'],['メンバーシップ委員規定運用担当','hashimoto'],['メンバーシップ委員審査担当','ohashiTakao'],['メンバーシップ委員ディベロップメント担当','inaba']];
+  function officer(pair) { var p = people[pair[1]], li = document.createElement('li'); li.className = 'officer'; li.innerHTML = '<div class="photo"><img src="images/' + p.photo + '" alt="' + pair[0] + ' ' + p.name + '" width="136" height="136"></div><p class="officer__role">' + pair[0] + '</p><p class="officer__name">' + p.name + '</p><p class="officer__company">' + p.company + '<br>' + p.category + '</p><a class="officer__link" href="' + p.url + '" target="_blank" rel="noopener noreferrer">ホームページ</a><p class="officer__text js-read-more-text">' + p.text + '<br><span class="contact-list-label">コンタクトリスト</span><br>' + p.contact + '</p><button class="read-more js-read-more" type="button" aria-expanded="false">もっと読む</button>'; return li; }
+  var groups = document.querySelectorAll('#team .officer-grid');
+  [leadership, support, membership].forEach(function (list, i) { if (!groups[i]) { var g = document.createElement('div'); g.className = 'group'; g.innerHTML = '<div class="group-label"><h3>' + ['リーダーシップチーム','サポートチーム','メンバーシップ委員会'][i] + '</h3></div><ul class="officer-grid"></ul>'; document.querySelector('#team .container').appendChild(g); groups = document.querySelectorAll('#team .officer-grid'); } groups[i].replaceChildren.apply(groups[i], list.map(officer)); });
+  var cats = { 'cat-food': ['ayabe'], 'cat-realestate': ['suga','ohashiTakao','watanabe','shiraishi','inaba'], 'cat-finance': ['watanabeShota'], 'cat-health': ['ijima'], 'cat-business': ['ohashiTomoko','hashimoto','kawata'] };
+  Object.keys(cats).forEach(function (id) { var grid = document.querySelector('#' + id + ' .member-grid'); if (!grid) return; grid.replaceChildren.apply(grid, cats[id].map(function (key) { var p = people[key], li = document.createElement('li'); li.className = 'member'; li.innerHTML = '<div class="member__head"><div class="photo"><img src="images/' + p.photo + '" alt="' + p.name + ' ' + p.category + '" width="136" height="136"></div><div class="member__info"><span class="member__tag">' + p.category + '</span><p class="member__name">' + p.name + '</p><p class="member__company">' + p.company + '</p></div></div><a class="member__link" href="' + p.url + '" target="_blank" rel="noopener noreferrer">ホームページ</a><p class="member__text officer__text js-read-more-text">' + p.text + '<br><span class="contact-list-label">コンタクトリスト</span><br>' + p.contact + '</p><button class="read-more js-read-more" type="button" aria-expanded="false">もっと読む</button>'; return li; })); });
+  document.querySelectorAll('.js-read-more').forEach(function (button) { button.addEventListener('click', function () { var text = button.previousElementSibling; var expanded = text.classList.toggle('is-expanded'); button.setAttribute('aria-expanded', String(expanded)); button.textContent = expanded ? '閉じる' : 'もっと読む'; }); });
+})();
+
 // 写真差し替え用のダミーファイル名を各写真枠に付与
 (function () {
   var photos = document.querySelectorAll('.photo');
