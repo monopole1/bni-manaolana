@@ -151,22 +151,6 @@
   }, 2750);
 })();
 
-// 長いプロフィール文をカード内で開閉する
-(function () {
-  var buttons = document.querySelectorAll('.js-read-more');
-
-  buttons.forEach(function (button) {
-    var text = button.previousElementSibling;
-    if (!text || !text.classList.contains('js-read-more-text')) return;
-
-    button.addEventListener('click', function () {
-      var expanded = text.classList.toggle('is-expanded');
-      button.setAttribute('aria-expanded', String(expanded));
-      button.textContent = expanded ? '閉じる' : 'もっと読む';
-    });
-  });
-})();
-
 // 役職・メンバー情報を一元化し、追加分も含めて指定順に描画
 (function () {
   var people = {

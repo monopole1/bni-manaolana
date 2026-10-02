@@ -344,6 +344,11 @@ ul { margin: 0; padding: 0; list-style: none; }
   width: 136px; height: 136px; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--gold);
   margin-bottom: 4px;
 }
+#chapter-supporters .officer .photo img {
+  transform: translateY(12px) scale(1.15);
+  transform-origin: center bottom;
+}
+.officer__chapter { font-size: 12px; font-weight: 700; color: var(--text-mute); line-height: 1.5; }
 .officer__role { font-size: 13px; font-weight: 700; color: var(--accent); line-height: 1.5; }
 .officer__name { font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--navy-deep); }
 .officer__company { font-size: 12px; color: var(--text-mute); }
