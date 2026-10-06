@@ -297,6 +297,22 @@ ul { margin: 0; padding: 0; list-style: none; }
   font-size: 16px; line-height: 2.1; color: var(--text-sub);
 }
 
+/* ---------- Director ---------- */
+.director {
+  padding-top: 24px; margin-bottom: 64px; background: var(--bg-warm);
+  border-bottom: 1px solid var(--line);
+}
+.director__grid {
+  display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(280px, .7fr);
+  align-items: center; gap: clamp(40px, 7vw, 96px);
+}
+.section-head--left { align-items: flex-start; text-align: left; margin-bottom: 32px; }
+.director__text { color: var(--text-sub); font-size: 15px; line-height: 2; }
+.director__text p + p { margin-top: 20px; }
+.director__text strong { color: var(--navy-deep); font-weight: 700; }
+.director__photo { margin: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 16px 40px rgba(20, 35, 75, .14); }
+.director__photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+
 /* ---------- Theme & Vision ---------- */
 .theme { padding: 0 0 96px; }
 .theme__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
@@ -521,6 +537,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .footer-info div { display: flex; flex-direction: column; gap: 4px; }
 .footer-info dt { font-size: 12px; font-weight: 700; color: var(--accent); }
 .footer-info dd { margin: 0; font-size: 16px; color: var(--navy-deep); }
+.footer-location__zoom { min-height: 44px; padding-inline: 24px; }
 .copyright {
   background: var(--navy-deep); color: #D5DBEA; text-align: center;
   font-size: 12px; letter-spacing: 1px; padding: 18px var(--gutter);
@@ -569,6 +586,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .hero__actions { justify-content: center; }
 
   .theme__grid { grid-template-columns: 1fr; gap: 20px; }
+  .director__grid { grid-template-columns: minmax(0, 1.15fr) minmax(240px, .85fr); gap: 40px; }
 
   .site-footer__inner { flex-direction: column; gap: 32px; text-align: center; }
   .site-footer__logo-wrap { width: 180px; }
@@ -585,6 +603,11 @@ ul { margin: 0; padding: 0; list-style: none; }
   .section-head { margin-bottom: 32px; }
   .about { padding-bottom: 56px; }
   .about__text { font-size: 15px; line-height: 2; text-align: left; }
+  .director { padding-top: 64px; margin-bottom: 40px; }
+  .director__grid { grid-template-columns: 1fr; gap: 32px; }
+  .section-head--left { align-items: center; text-align: center; margin-bottom: 28px; }
+  .director__text { font-size: 15px; }
+  .director__photo { width: min(100%, 420px); margin-inline: auto; }
   .theme { padding-bottom: 64px; }
   .theme-card { padding: 32px 20px; }
 
