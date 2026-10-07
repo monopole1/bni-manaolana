@@ -310,8 +310,9 @@ ul { margin: 0; padding: 0; list-style: none; }
 .director__text { color: var(--text-sub); font-size: 15px; line-height: 2; }
 .director__text p + p { margin-top: 20px; }
 .director__text strong { color: var(--navy-deep); font-weight: 700; }
-.director__photo { margin: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 16px 40px rgba(20, 35, 75, .14); }
-.director__photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
+.director__photo { margin: 0; }
+.director__photo img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 16px; box-shadow: 0 16px 40px rgba(20, 35, 75, .14); }
+.director__photo figcaption { margin-top: 12px; text-align: center; font-family: var(--font-serif); font-size: 18px; font-weight: 700; color: var(--navy-deep); }
 
 /* ---------- Theme & Vision ---------- */
 .theme { padding: 0 0 96px; }
@@ -324,14 +325,25 @@ ul { margin: 0; padding: 0; list-style: none; }
 .theme-card--blue { background: var(--bg-blue); }
 .theme-card h3 { font-family: var(--font-serif); font-size: 22px; font-weight: 700; color: var(--navy-deep); }
 .theme-card__theme {
+  margin: 4px 0; padding: 18px 24px; width: 100%;
+  border: 2px solid var(--accent); border-radius: 10px; background: #fff;
+  box-shadow: 0 8px 18px rgba(168, 29, 43, .14);
   font-family: var(--font-serif); font-weight: 700; color: var(--accent);
-  font-size: clamp(24px, 2.6vw, 34px); line-height: 1.5;
+  font-size: clamp(30px, 3.5vw, 44px); line-height: 1.35; letter-spacing: .04em;
 }
 .theme-card__text { font-size: 15px; line-height: 1.9; color: var(--text-sub); }
 .theme-card__vision {
   font-family: var(--font-serif); font-weight: 700; color: var(--navy);
   font-size: clamp(18px, 1.8vw, 22px); line-height: 1.8;
 }
+.theme-card__vision { width: 100%; margin: 0; padding-left: 1.4em; text-align: left; }
+.theme-card__vision li + li { margin-top: 16px; }
+.theme-card__vision strong, .theme-card__vision span { display: block; }
+.theme-card__vision span { font-size: .85em; font-weight: 500; }
+.theme-card__kpi { width: 100%; padding-top: 20px; border-top: 1px solid rgba(27, 63, 139, .2); text-align: left; }
+.theme-card__kpi h4 { margin: 0 0 8px; font-family: var(--font-serif); font-size: 19px; color: var(--navy-deep); }
+.theme-card__kpi ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 0; }
+.theme-card__kpi li { display: flex; align-items: center; justify-content: center; min-height: 72px; padding: 12px; border: 1px solid rgba(27, 63, 139, .2); border-radius: 8px; background: #fff; box-shadow: 0 3px 8px rgba(20, 35, 75, .06); color: var(--accent); font-size: 15px; font-weight: 700; line-height: 1.5; text-align: center; }
 
 /* ---------- Group label (pill + rule) ---------- */
 .group + .group { margin-top: 48px; }
@@ -610,6 +622,9 @@ ul { margin: 0; padding: 0; list-style: none; }
   .director__photo { width: min(100%, 420px); margin-inline: auto; }
   .theme { padding-bottom: 64px; }
   .theme-card { padding: 32px 20px; }
+  .theme-card__theme { padding: 16px; font-size: clamp(28px, 9vw, 36px); }
+  .theme-card__kpi ul { grid-template-columns: 1fr; }
+  .theme-card__kpi li { min-height: 56px; justify-content: flex-start; text-align: left; }
 
   .hero__logo { max-width: 280px; }
   .hero__lead { font-size: 15px; }
