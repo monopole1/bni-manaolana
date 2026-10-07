@@ -30,6 +30,53 @@
   });
 })();
 
+// ポッドキャストの音源は再生操作まで読み込まない
+(function () {
+  var button = document.querySelector('.origin__play');
+  var player = document.getElementById('origin-player');
+  if (!button || !player) return;
+
+  button.addEventListener('click', function () {
+    if (!player.src) {
+      player.src = button.dataset.audioSrc;
+      player.load();
+    }
+    player.hidden = false;
+    button.hidden = true;
+    player.play().catch(function () {
+      // ブラウザの自動再生制限時は表示された再生バーから操作可能
+    });
+  });
+})();
+
+// BNIの沿革を開閉
+(function () {
+  var button = document.querySelector('.history__toggle');
+  var more = document.getElementById('history-more');
+  if (!button || !more) return;
+
+  button.addEventListener('click', function () {
+    var expanded = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(expanded));
+    more.hidden = !expanded;
+    button.innerHTML = expanded ? '沿革を閉じる <span aria-hidden="true">▾</span>' : '残り20件の沿革をすべて見る <span aria-hidden="true">▾</span>';
+  });
+})();
+
+// BNIミッションのコアバリューを開閉
+(function () {
+  var button = document.querySelector('.mission__toggle');
+  var more = document.getElementById('mission-more');
+  if (!button || !more) return;
+
+  button.addEventListener('click', function () {
+    var expanded = button.getAttribute('aria-expanded') !== 'true';
+    button.setAttribute('aria-expanded', String(expanded));
+    more.hidden = !expanded;
+    button.innerHTML = expanded ? 'Close Core Values <span aria-hidden="true">▾</span>' : 'Explore Our Core Values <span aria-hidden="true">▾</span>';
+  });
+})();
+
 // スクロール終端へ到達するたび、フッターを上から下へ波で見せる
 (function () {
   var footer = document.querySelector('.site-footer');
