@@ -603,6 +603,19 @@ ul { margin: 0; padding: 0; list-style: none; }
 .footer-info dt { font-size: 12px; font-weight: 700; color: var(--accent); }
 .footer-info dd { margin: 0; font-size: 16px; color: var(--navy-deep); }
 .footer-location__zoom { min-height: 44px; padding-inline: 24px; }
+.footer-location__background-download {
+  display: block; width: min(240px, 100%); margin-top: 14px;
+  color: var(--navy-deep); font-size: 13px; font-weight: 700; text-decoration: none;
+}
+.footer-location__background-download img {
+  display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px;
+  transition: box-shadow .2s, transform .2s;
+}
+.footer-location__background-download:hover img,
+.footer-location__background-download:focus-visible img {
+  transform: translateY(-2px); box-shadow: 0 8px 20px rgba(20, 35, 75, .16);
+}
+.footer-location__background-download span { display: block; margin-top: 8px; }
 .copyright {
   background: var(--navy-deep); color: #D5DBEA; text-align: center;
   font-size: 12px; letter-spacing: 1px; padding: 18px var(--gutter);
