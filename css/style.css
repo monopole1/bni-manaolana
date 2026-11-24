@@ -603,19 +603,31 @@ ul { margin: 0; padding: 0; list-style: none; }
 .footer-info dt { font-size: 12px; font-weight: 700; color: var(--accent); }
 .footer-info dd { margin: 0; font-size: 16px; color: var(--navy-deep); }
 .footer-location__zoom { min-height: 44px; padding-inline: 24px; }
-.footer-location__background-download {
-  display: block; width: min(240px, 100%); margin-top: 14px;
-  color: var(--navy-deep); font-size: 13px; font-weight: 700; text-decoration: none;
+.footer-info .footer-location__backgrounds {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr));
+  gap: 12px; margin-top: 14px;
 }
-.footer-location__background-download img {
-  display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px;
-  transition: box-shadow .2s, transform .2s;
+.footer-location__background-card {
+  display: block; overflow: hidden; border: 1px solid var(--line); border-radius: 10px;
+  background: #fff; color: var(--navy-deep); text-decoration: none;
+  transition: border-color .2s, box-shadow .2s, transform .2s;
 }
-.footer-location__background-download:hover img,
-.footer-location__background-download:focus-visible img {
-  transform: translateY(-2px); box-shadow: 0 8px 20px rgba(20, 35, 75, .16);
+.footer-location__background-card:hover,
+.footer-location__background-card:focus-visible {
+  transform: translateY(-2px); border-color: var(--accent);
+  box-shadow: 0 8px 20px rgba(20, 35, 75, .14);
 }
-.footer-location__background-download span { display: block; margin-top: 8px; }
+.footer-location__background-preview { position: relative; display: block; overflow: hidden; }
+.footer-location__background-preview img {
+  display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
+}
+.footer-location__background-version {
+  position: absolute; top: 8px; left: 8px; padding: 4px 9px; border-radius: 999px;
+  background: var(--navy-deep); color: #fff; font-size: 11px; font-weight: 700; line-height: 1.4;
+}
+.footer-location__background-label {
+  display: block; padding: 10px 12px; font-size: 12px; font-weight: 700; line-height: 1.5;
+}
 .copyright {
   background: var(--navy-deep); color: #D5DBEA; text-align: center;
   font-size: 12px; letter-spacing: 1px; padding: 18px var(--gutter);
